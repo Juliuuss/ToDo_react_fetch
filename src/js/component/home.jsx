@@ -1,25 +1,43 @@
-import React from "react";
+import React, { useState } from "react";
 
 //include images into your bundle
 import rigoImage from "../../img/rigo-baby.jpg";
 
 //create your first component
 const Home = () => {
+	const [inputTodo, setInputTodo] = useState("");
+	const [task, setTask] = useState([]);
+	function addTask (){
+		setTask(task.concat(inputTodo));
+		setInputTodo("");
+
+
+	}
 	return (
-		<div className="text-center">
-			<h1 className="text-center mt-5">Hello Rigo!</h1>
-			<p>
-				<img src={rigoImage} />
-			</p>
-			<a href="#" className="btn btn-success">
-				If you see this green button... bootstrap is working...
-			</a>
-			<p>
-				Made by{" "}
-				<a href="http://www.4geeksacademy.com">4Geeks Academy</a>, with
-				love!
-			</p>
-		</div>
+		<>
+			<div className="container-sm mt-2 text-center">
+				<h1>My ToDos</h1>
+				<ul class="list-group mt-5">
+					<li class="list-group-item">
+						<input type="text"
+							className="form-control border border-0"
+							placeholder="ToDos"
+							aria-label="Username"
+							aria-describedby="basic-addon1"
+							onChange={(e) => setInputTodo(e.target.value)}
+							value={inputTodo}
+							onKeyDown={(e) => e.key === "Enter" ? addTask() : null}
+						/>
+					</li>
+					{task.map((t, index) => (
+						<li className="list-group-item d-flex justify-content-between">{t}{" "}
+							<i class="fas fa-trash-alt" onClick={() => setTask(task.filter((t, currentIndex) => index != currentIndex))}></i>
+						</li>
+					))}
+					<li className="list-group-item">{task.length} Tareas Faltantes</li>
+				</ul>
+			</div>
+		</>
 	);
 };
 
